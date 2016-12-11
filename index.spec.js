@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var generate = require('./index');
+var generate = require('./');
 var passes = 10000;
 
 describe('Generate password with default options', function() {

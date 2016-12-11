@@ -1,7 +1,7 @@
 {
   "name": "xkcd-pass-plus",
   "version": "0.1.0",
-  "description": "XKCD password generator with options.",
+  "description": "Password generator based on XKCD.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Wtower/xkcd-pass-plus.git"
@@ -12,11 +12,15 @@
     "url": "https://github.com/Wtower/xkcd-pass-plus/issues"
   },
   "homepage": "https://github.com/Wtower/xkcd-pass-plus#README",
+  "bin": "cli.js",
   "scripts": {
     "test": "gulp test"
   },
   "dependencies": {
+    "argparse": "^1.0.9",
+    "chalk": "^1.1.3",
     "lodash": "^4.17.2",
+    "random-word": "^1.0.2",
     "random-words": "0.0.1"
   },
   "devDependencies": {
