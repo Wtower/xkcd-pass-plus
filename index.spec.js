@@ -78,3 +78,33 @@ describe('Generate password with alternative options', function() {
     done();
   });
 });
+
+describe('Generate password with letterpress dictionary', function() {
+  var passwords = [];
+
+  before(function () {
+    for (var i = 0; i < passes; i++) {
+      passwords.push(generate({
+        words: {
+          dictionary: 'letterpress',
+          exactly: 4,
+          min: 4,
+          max: 8
+        }
+      }));
+      console.log(passwords[i].pass);
+    }
+  });
+
+  it('should generate password with good entropy', function(done) {
+    expect(passwords).to.be.an('array');
+    for (var i = 0; i < passwords.length; i++) {
+      var password = passwords[i];
+      expect(password).to.have.property('pass');
+
+      expect(password.entropy).to.be.greaterThan(60, 'entropy');
+      expect(password.blindEntropy).to.be.greaterThan(96, 'blind entropy');
+    }
+    done();
+  });
+});

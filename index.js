@@ -1,3 +1,4 @@
+var randomWord = require('random-word');
 var randomWords = require('random-words');
 var lodash = require('lodash');
 
@@ -7,20 +8,35 @@ var lodash = require('lodash');
  */
 var defaultOptions = {
   words: {
+    dictionary: 'xkcd', // xkcd (2k) or letterpress (270k)
     exactly: 4, // number of words to generate
     min: 4, // minimum length of each word
     max: 8 // maximum length of each word
   },
   separator: '-', // how to join words
-  paddingDigits: { // how many digits to add before and after the pass 
+  paddingDigits: { // how many digits to add before and after the pass
     before: 0,
-    after: 1 
+    after: 1
   },
   paddingSymbols: { // how many symbols to add before and after the pass
     symbols: '!@#$%^&*()', // which symbols
     before: 0,
     after: 1
   }
+};
+
+var getWords = function (wordOptions) {
+  if (wordOptions.dictionary == 'letterpress') {
+    var words = [];
+    while (words.length < wordOptions.exactly) {
+      var word = randomWord();
+      if (wordOptions.min <= word.length && word.length <= wordOptions.max) {
+        words.push(word);
+      }
+    }
+    return words;
+  }
+  else return randomWords(wordOptions);
 };
 
 /**
@@ -101,7 +117,7 @@ var rateEntropy = function (entropy) {
  */
 var generate = function (options) {
   options = lodash.extend(defaultOptions, options);
-  var words = randomWords(options.words);
+  var words = getWords(options.words);
   words = capitalizeWords(words);
 
   var padding =
