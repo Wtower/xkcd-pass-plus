@@ -27,6 +27,7 @@ var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
 var nsp = require('gulp-nsp');
 var plumber = require('gulp-plumber');
+var coveralls = require('gulp-coveralls');
 var path = require('path');
 
 /*
@@ -99,6 +100,12 @@ var tasks = {
       .pipe(mocha({reporter: 'spec', colors: true}))
       .on('error', handleError('Mocha'))
       .pipe(istanbul.writeReports());
+  },
+
+  coveralls: function () {
+    if (!process.env.CI) return;
+    return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
+      .pipe(coveralls());
   }
 };
 
@@ -110,12 +117,14 @@ gulp.task('nsp', tasks.nsp);
 gulp.task('preTest', tasks.preTest);
 gulp.task('mocha', tasks.mocha);
 gulp.task('istanbul', ['preTest'], tasks.mocha);
+gulp.task('coveralls', ['istanbul'], tasks.coveralls);
 
 // test task
 gulp.task('test', [
   'lintjs',
   'nsp',
-  'istanbul'
+  'istanbul',
+  'coveralls'
 ]);
 
 gulp.task('default', ['test']);
