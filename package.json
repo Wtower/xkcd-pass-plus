@@ -1,0 +1,34 @@
+{
+  "name": "xkcd-pass-plus",
+  "version": "0.1.0",
+  "description": "XKCD password generator with options.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wtower/xkcd-pass-plus.git"
+  },
+  "author": "George Karakostas (https://github.com/Wtower)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Wtower/xkcd-pass-plus/issues"
+  },
+  "homepage": "https://github.com/Wtower/xkcd-pass-plus#README",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "dependencies": {
+    "lodash": "^4.17.2",
+    "random-words": "0.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^1.0.0",
+    "gulp-mocha": "^3.0.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-nsp": "^2.4.2",
+    "gulp-plumber": "^1.1.0",
+    "gulp-util": "^3.0.7"
+  }
+}
