@@ -8,48 +8,53 @@ var parser = new argparse.ArgumentParser({
   description: pack.description,
   version: pack.version
 });
-parser.addArgument(['-w', '--words', '--words-exactly'], {
-  help: 'Number of words to generate',
+parser.addArgument(['-d', '--dictionary'], {
+  help: '`xkcd` (2k, most memorable), `letterpress` (270k) or `mixed`.',
+  type: 'string',
+  defaultValue: 'mixed'
+});
+parser.addArgument(['-w', '--word-num'], {
+  help: 'Number of words to generate.',
   type: 'int',
   defaultValue: 4
 });
 parser.addArgument(['--word-min'], {
-  help: 'Minimum length of each word',
+  help: 'Minimum length of each word.',
   type: 'int',
   defaultValue: 4
 });
 parser.addArgument(['--word-max'], {
-  help: 'Maximum length of each word',
+  help: 'Maximum length of each word.',
   type: 'int',
   defaultValue: 8
 });
 parser.addArgument(['-s', '--separator'], {
-  help: 'How to join words',
+  help: 'How to join words.',
   type: 'string',
   defaultValue: '-'
 });
 parser.addArgument(['--pad-digit-before'], {
-  help: 'How many digits to add before the pass',
+  help: 'How many digits to add before the pass.',
   type: 'int',
   defaultValue: 0
 });
 parser.addArgument(['--pad-digit-after'], {
-  help: 'How many digits to add after the pass',
+  help: 'How many digits to add after the pass.',
   type: 'int',
   defaultValue: 1
 });
 parser.addArgument(['--pad-symbols'], {
-  help: 'Which symbols to use in padding',
+  help: 'Which symbols to use in padding.',
   type: 'string',
   defaultValue: '!@#$%^&*()'
 });
 parser.addArgument(['--pad-symbol-before'], {
-  help: 'How many symbols to add before the pass',
+  help: 'How many symbols to add before the pass.',
   type: 'int',
   defaultValue: 0
 });
 parser.addArgument(['--pad-symbol-after'], {
-  help: 'How many symbols to add after the pass',
+  help: 'How many symbols to add after the pass.',
   type: 'int',
   defaultValue: 1
 });
@@ -57,9 +62,10 @@ var args = parser.parseArgs();
 
 var pass = generate({
   words: {
-    exactly: args.words,
-    min: args.words_min,
-    max: args.words_max
+    dictionary: args.dictionary,
+    num: args.word_num,
+    min: args.word_min,
+    max: args.word_max
   },
   separator: args.separator,
   paddingDigits: {

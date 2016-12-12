@@ -1,37 +1,45 @@
-var randomWord = require('random-word');
-var randomWords = require('random-words');
+var letterpress = require('random-word');
+var xkcd = require('random-words');
 var lodash = require('lodash');
 
 /**
- * Get a list of words
+ * Get a list of words from a specific dictionary with specified num, min and max
+ * @param wordOptions
+ * @param dictionary
+ * @returns {Array}
+ */
+var getWordsFromDictionary = function (wordOptions, dictionary) {
+  // console.log(dictionary);
+  var words = [];
+  while (words.length < wordOptions.num) {
+    var word = dictionary();
+    if (wordOptions.min <= word.length && word.length <= wordOptions.max) {
+      words.push(word);
+    }
+  }
+  return words;
+};
+
+/**
+ * Get a list of words from appropriate dictionary
  * @param wordOptions
  * @returns {*}
  */
 var getWords = function (wordOptions) {
-  var words = [];
-  var word = '';
-
-  if (wordOptions.dictionary == 'letterpress') {
-    while (words.length < wordOptions.exactly) {
-      word = randomWord();
-      if (wordOptions.min <= word.length && word.length <= wordOptions.max) {
-        words.push(word);
-      }
-    }
-    return words;
+  if (wordOptions.dictionary == 'xkcd') {
+    return getWordsFromDictionary(wordOptions, xkcd);
   }
-
-  else if (wordOptions.dictionary == 'mixed') {
-    wordOptions.exactly--;
-    words = randomWords(wordOptions);
-    while (!(wordOptions.min <= word.length && word.length <= wordOptions.max)) {
-      word = randomWord();
-    }
-    words.splice(lodash.random(0, words.length - 1), 0, word);
-    return words;
+  else if (wordOptions.dictionary == 'letterpress') {
+    return getWordsFromDictionary(wordOptions, letterpress);
   }
-
-  else return randomWords(wordOptions);
+  else { // if (wordOptions.dictionary == 'mixed') {
+    wordOptions.num--;
+    var xkcdWords = getWordsFromDictionary(wordOptions, xkcd);
+    wordOptions.num = 1;
+    var letterWords = getWordsFromDictionary(wordOptions, letterpress);
+    xkcdWords.splice(lodash.random(0, xkcdWords.length - 1), 0, letterWords[0]);
+    return xkcdWords;
+  }
 };
 
 /**
@@ -113,9 +121,9 @@ var rateEntropy = function (entropy) {
 var generate = function (options) {
   var defaultOptions = {
     words: {
-      dictionary: 'xkcd', // xkcd (2k, most memorable) or letterpress (270k) or mixed
-      exactly: 4, // number of words to generate
-      min: 5, // minimum length of each word
+      dictionary: 'mixed', // xkcd (2k, most memorable) or letterpress (270k) or mixed
+      num: 4, // number of words to generate
+      min: 4, // minimum length of each word
       max: 8 // maximum length of each word
     },
     separator: '-', // how to join words

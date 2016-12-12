@@ -33,12 +33,11 @@ Usage as a module
 
 ### Options
 
-The [default options](https://github.com/Wtower/xkcd-pass-plus/blob/master/index.js#L8) are:
-
 ```
 var defaultOptions = {
   words: {
-    exactly: 4, // number of words to generate
+    dictionary: 'mixed', // xkcd (2k, most memorable) or letterpress (270k) or mixed
+    num: 4, // number of words to generate
     min: 4, // minimum length of each word
     max: 8 // maximum length of each word
   },
@@ -87,9 +86,9 @@ Usage with CLI
 
 ```
 $ xkcd-pass-plus -h
-usage: xkcd-pass-plus [-h] [-v] [-w WORDS] [--word-min WORD_MIN]
-                      [--word-max WORD_MAX] [-s SEPARATOR]
-                      [--pad-digit-before PAD_DIGIT_BEFORE]
+usage: xkcd-pass-plus [-h] [-v] [-d DICTIONARY] [-w WORD_NUM] 
+                      [--word-min WORD_MIN] [--word-max WORD_MAX]
+                      [-s SEPARATOR] [--pad-digit-before PAD_DIGIT_BEFORE]
                       [--pad-digit-after PAD_DIGIT_AFTER]
                       [--pad-symbols PAD_SYMBOLS]
                       [--pad-symbol-before PAD_SYMBOL_BEFORE]
@@ -101,22 +100,25 @@ Password generator based on XKCD.
 Optional arguments:
   -h, --help            Show this help message and exit.
   -v, --version         Show program's version number and exit.
-  -w WORDS, --words WORDS, --words-exactly WORDS
-                        Number of words to generate
-  --word-min WORD_MIN   Minimum length of each word
-  --word-max WORD_MAX   Maximum length of each word
+  -d DICTIONARY, --dictionary DICTIONARY
+                        `xkcd` (2k, most memorable), `letterpress` (270k) or 
+                        `mixed`.
+  -w WORDS, --word-num WORD_NUM
+                        Number of words to generate.
+  --word-min WORD_MIN   Minimum length of each word.
+  --word-max WORD_MAX   Maximum length of each word.
   -s SEPARATOR, --separator SEPARATOR
-                        How to join words
+                        How to join words.
   --pad-digit-before PAD_DIGIT_BEFORE
-                        How many digits to add before the pass
+                        How many digits to add before the pass.
   --pad-digit-after PAD_DIGIT_AFTER
-                        How many digits to add after the pass
+                        How many digits to add after the pass.
   --pad-symbols PAD_SYMBOLS
-                        Which symbols to use in padding
+                        Which symbols to use in padding.
   --pad-symbol-before PAD_SYMBOL_BEFORE
-                        How many symbols to add before the pass
+                        How many symbols to add before the pass.
   --pad-symbol-after PAD_SYMBOL_AFTER
-                        How many symbols to add after the pass
+                        How many symbols to add after the pass.
 ```
 
 ### Output
@@ -146,24 +148,28 @@ smaller entropy numbers. Therefore, the strength rating based on the entropy is 
 but an entropy of 64+ is quite good currently.
  
 The blind entropy refers to the possibility that the attacker has absolutely no idea about
-the form of our password. The entropy refers to a more distant but sage assumption that the
+the form of our password. The (not blind) entropy refers to a more distant but sage assumption that the
 attacker knows the exact range of characters used. The algorithm's rating is based on the latter.
 
 Here we need to make the argument about what happens when the attacker brute-forces using a
 dictionary. Then the entropy calculation based on the range of characters no longer applies.
 Obviously the entropy relates to the range of dictionary words and the number of words used.
 
-Currently this specific algorithm uses the XKCD dictionary which is approximately a bit more than
-2000 words. 2000^4 combinations results to a small entropy. If only the attacker knew that this is the
-dictionary on which a user based his or her password. Soon we will introduce a larger range in
-the algorithm.
+The XKCD dictionary is approximately a bit more than 2000 words. 2000^4 combinations would 
+result to a small entropy. If only the attacker knew that this is the dictionary on which 
+a user based his or her password.
+
+For this reason, an additional dictionary based on Letterpress is offered, which contains
+270k words. This reduces the possibility of a brute-force greatly, but also the memorability.
+Thus the default method is a combination of the two dictionaries.
 
 Tests
 -----
 
 How can we be sure that the password produced is safe. Well, we cannot be 100% sure.
 The module includes some automated tests that produce 10000 passwords and it requires that
-all of them have at least 60 bits of entropy. You are free to conduct your own CPU-intensive tests.
+all of them have at least 60 bits of entropy. Very rarely the entropy dropped below 80.
+You are free to conduct your own CPU-intensive tests.
 
 Alternatives
 ------------
