@@ -17,8 +17,8 @@ describe('Generate password with default options', function() {
       var password = passwords[i];
       expect(password).to.have.property('pass');
 
-      expect(password.entropy).to.be.greaterThan(60, 'entropy');
-      expect(password.blindEntropy).to.be.greaterThan(96, 'blind entropy');
+      expect(password.entropy).to.be.least(60, 'entropy: ' + password.pass);
+      expect(password.blindEntropy).to.be.least(96, 'blind entropy');
 
       var words = password.pass.split('-');
       var padding = words.pop();
@@ -92,7 +92,6 @@ describe('Generate password with letterpress dictionary', function() {
           max: 8
         }
       }));
-      console.log(passwords[i].pass);
     }
   });
 
@@ -102,8 +101,8 @@ describe('Generate password with letterpress dictionary', function() {
       var password = passwords[i];
       expect(password).to.have.property('pass');
 
-      expect(password.entropy).to.be.greaterThan(60, 'entropy');
-      expect(password.blindEntropy).to.be.greaterThan(96, 'blind entropy');
+      expect(password.entropy).to.be.least(60, 'entropy');
+      expect(password.blindEntropy).to.be.least(96, 'blind entropy');
     }
     done();
   });
