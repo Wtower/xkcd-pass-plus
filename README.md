@@ -4,15 +4,12 @@ xkcd-pass-plus
 [![NPM version][npm-image]][npm-url] 
 [![Build Status][travis-image]][travis-url] 
 [![Coverage Status](https://coveralls.io/repos/github/Wtower/xkcd-pass-plus/badge.svg?branch=master)](https://coveralls.io/github/Wtower/xkcd-pass-plus?branch=master) 
-[![Dependency Status][daviddm-image]][daviddm-url] 
 [![npm](https://img.shields.io/npm/dt/xkcd-pass-plus.svg?maxAge=2592000)](https://www.npmjs.com/package/xkcd-pass-plus)
 
 [npm-image]: https://badge.fury.io/js/xkcd-pass-plus.svg
 [npm-url]: https://npmjs.org/package/xkcd-pass-plus
 [travis-image]: https://travis-ci.org/Wtower/xkcd-pass-plus.svg?branch=master
 [travis-url]: https://travis-ci.org/Wtower/xkcd-pass-plus
-[daviddm-image]: https://david-dm.org/Wtower/xkcd-pass-plus.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/Wtower/xkcd-pass-plus
 
 Password generator based on XKCD.
 
